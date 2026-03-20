@@ -11,11 +11,14 @@ const {
 const sendEmail = require("../utils/SendEmail");
 require("dotenv").config();
 
+const BACKEND_URL = process.env.BACKEND_URL;
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
 const jwtSec = process.env.JWT_SECRET;
 
 const getCookieOptions = () => ({
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production", 
+  secure: process.env.NODE_ENV === "production",
   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
 });
 
@@ -30,10 +33,11 @@ async function googleCallbackHandler(req, res) {
       maxAge: 60 * 60 * 1000,
     });
 
-    const frontendURL = process.env.NODE_ENV === 'production' 
-      ? 'https://dragend-h8cjcqdsfcc8gaex.centralindia-01.azurewebsites.net' 
-      : 'http://localhost:5173';
-      
+    const frontendURL =
+      process.env.NODE_ENV === "production"
+        ? FRONTEND_URL
+        : "http://localhost:5173";
+
     res.redirect(frontendURL);
   } catch (err) {
     return res.status(500).json({ msg: "Login failed", error: err.message });
@@ -180,7 +184,7 @@ async function forgetPasswordHandler(req, res) {
     if (!isAvailabe) return res.status(404).send({ msg: "User Not Found." });
 
     const resetToken = jwt.sign({ email }, jwtSec, { expiresIn: 120 });
-    const URL = `http://localhost:8080/api/auth/createPassword/${resetToken}`;
+    const URL = `${BACKEND_URL}/api/auth/createPassword/${resetToken}`;
 
     return res.status(200).send({ msg: "Token Generated", URL });
   } catch (err) {

@@ -34,7 +34,6 @@ const sendEmail = async (username, email, otp) => {
         console.log("Email sent successfully via Brevo HTTP API!");
         return response.data;
     } catch (err) {
-        // Yeh error exactly batayega agar Brevo API mein koi issue hoga
         console.error("Brevo API error:", err.response ? err.response.data : err.message);
         throw err;
     }
