@@ -19,8 +19,6 @@ connectDB(MONGO_URL);
 app.use(cors({
     origin: [
         'http://localhost:5173',
-        'https://dragend-h8cjcqdsfcc8gaex.centralindia-01.azurewebsites.net',
-        'https://dragend.onrender.com'
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -31,7 +29,7 @@ app.use(passport.initialize());
 app.use('/api', indexRoute)
 
 app.get('/', (req, res) => {
-    res.send("<h1>Welcome to Backendless</h1>")
+    res.send("<h1>Welcome to Asthama</h1>")
 })
 
 app.listen(PORT, () => { console.log(`Server Running at ${PORT}/`) });
